@@ -15,7 +15,7 @@ Done in 1.2s
 
 ## Why
 
-C++ developers maintain the same dependency graph in two places: once in `#include` directives, once in build files. Onyx eliminates the second copy. Your includes already declare what depends on what — Onyx reads them directly.
+C++ developers maintain the same dependency graph in two places: once in `#include` directives, once in build files. Onyx eliminates the second copy. Your includes already declare what depends on what; Onyx reads them directly.
 
 ## Features
 
