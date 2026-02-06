@@ -1,50 +1,44 @@
-# onyx
+# Onyx
 
-*A build system that reads your code instead of making you write yaml*
+*A build system that reads your code instead of making you describe it.*
 
-## what
+## What
 
-onyx builds C++ projects by analyzing your source files. no `CMakeLists.txt`, no `BUILD` files, no build configuration at all for most projects.
+Onyx builds C++ projects by analyzing your source files. No `CMakeLists.txt`, no `BUILD` files, no build configuration language to learn. Your code is the spec.
 
 ```bash
 $ onyx build
-analyzing dependencies...
-building 47 targets (using cache for 45)
-done in 1.2s
+Analyzing dependencies...
+Building 47 targets (cached 45)
+Done in 1.2s
 ```
 
-## why
+## Why
 
-because maintaining a dependency graph in two places (your includes + your build files) is insane.
+C++ developers maintain the same dependency graph in two places: once in `#include` directives, once in build files. Onyx eliminates the second copy. Your includes already declare what depends on what — Onyx reads them directly.
 
-your `#include` directives already declare what depends on what. onyx just reads them.
+## Features
 
-## features that actually matter
+**Incremental builds that are correct.**
+Content-addressable cache keyed on source content, compiler flags, and dependency versions. Rebuilds only what actually changed. `onyx why-rebuild foo.o` explains exactly why something was recompiled.
 
-**incremental builds that work**  
-content-addressable cache + proper dependency tracking = rebuilds only what changed  
-`onyx why-rebuild foo.o` explains exactly why something recompiled
+**Zero config for standard projects.**
+Conventional directory layout → Onyx infers libraries, executables, and tests automatically. Non-standard structures are handled through a minimal TOML escape hatch.
 
-**zero config for normal projects**  
-conventional directory layout? onyx infers libraries, executables, tests  
-need weird stuff? minimal TOML for escape hatches
+**Integrated package management.**
+PubGrub version solver with full semantic versioning support. Declare dependencies in `onyx.toml`, Onyx handles resolution, fetching, and integration.
 
-**package management that doesn't suck**  
-pubgrub version solver, semantic versioning that works  
-`onyx.toml` declares deps, onyx handles the rest
+**Explainable builds.**
+Every decision Onyx makes is queryable. Build traces show the full chain from source change to recompilation, not just the final result.
 
-**builds you can understand**  
-every decision is explainable, every rebuild justified  
-build traces show *why*, not just *what*
+## Status
 
-## status
+Early development. The goal is self-hosting: Onyx builds Onyx.
 
-early development. bootstrapping onyx with onyx.
+## Design
 
-## why does c++ not have this already
-
-good question.
+Onyx is written in modern C++ and uses libclang for source analysis, SQLite for the build database, and a from-scratch implementation of the PubGrub dependency resolution algorithm. Builds are content-addressed and reproducible by construction.
 
 ---
 
-*build systems should be compilers, not configuration languages*
+*Build systems should be compilers, not configuration languages.*
