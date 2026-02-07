@@ -15,7 +15,7 @@ Done in 1.2s
 
 ## Why
 
-C++ developers maintain the same dependency graph in two places: once in `#include` directives, once in build files. Onyx eliminates the second copy. Your includes already declare what depends on what; Onyx reads them directly.
+C++ developers maintain the same dependency graph in two places: once in `#include` directives, once in build files. Onyx eliminates the second copy. Your includes already declare what depends on what. Onyx reads them directly.
 
 ## Features
 
@@ -30,6 +30,17 @@ PubGrub version solver with full semantic versioning support. Declare dependenci
 
 **Explainable builds.**
 Every decision Onyx makes is queryable. Build traces show the full chain from source change to recompilation, not just the final result.
+
+**Build-through-deploy.**
+Onyx knows exactly what changed, which artifacts are affected, and what the minimal deployment unit is. Instead of handing off to a blind CI/CD pipeline that rebuilds and redeploys everything, Onyx generates minimal deployment artifacts containing only what changed. The build system is the only system with full knowledge of your dependency graph. It should own the full pipeline from source to deployment.
+
+```bash
+$ onyx deploy --target staging
+3 files changed, 1 shared object affected
+Generating minimal patch artifact (48KB vs 2.1GB full image)
+Pushing to staging cluster...
+Deployed in 4.2s
+```
 
 ## Status
 
